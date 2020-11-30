@@ -2,6 +2,7 @@ package com.asterinet.react.tcpsocket;
 
 import android.content.Context;
 import android.net.Network;
+import android.util.Log;
 import android.util.Pair;
 
 import com.facebook.react.bridge.ReadableMap;
@@ -23,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 class TcpSocketClient {
+    private static final String TAG = "TcpSocketClient";
     private final int id;
     private final ExecutorService executorService;
     private TcpReceiverTask receiverTask;
@@ -95,7 +97,11 @@ class TcpSocketClient {
     @SuppressWarnings("WeakerAccess")
     public void startListening() {
         //noinspection unchecked
-        receiverTask.executeOnExecutor(getExecutorService(), new Pair<>(this, mReceiverListener));
+        try {
+            receiverTask.executeOnExecutor(getExecutorService(), new Pair<>(this, mReceiverListener));
+        } catch (IllegalStateException e) {
+            Log.e(TAG, "Error running socket listener", e);
+        }
     }
 
     /**
