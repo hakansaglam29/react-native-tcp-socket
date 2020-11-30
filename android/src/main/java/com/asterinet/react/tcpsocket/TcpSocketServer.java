@@ -2,6 +2,7 @@ package com.asterinet.react.tcpsocket;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.facebook.react.bridge.ReadableMap;
 
@@ -13,6 +14,7 @@ import java.net.Socket;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class TcpSocketServer extends TcpSocketClient {
+    private static final String TAG = "TcpSocketServer";
     private ServerSocket serverSocket;
     private TcpReceiverTask.OnDataReceivedListener mReceiverListener;
     private int clientSocketIds;
@@ -77,7 +79,12 @@ public final class TcpSocketServer extends TcpSocketClient {
 
     private void listen() {
         //noinspection unchecked
-        listening.executeOnExecutor(getExecutorService());
+        Log.w(TAG, "Run listen command for server");
+        try {
+            listening.executeOnExecutor(getExecutorService());
+        } catch(Exception e) {
+            Log.e(TAG, "Some error in listen", e);
+        }
     }
 
     @Override
