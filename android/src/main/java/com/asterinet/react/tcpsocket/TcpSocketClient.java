@@ -99,7 +99,7 @@ class TcpSocketClient {
         //noinspection unchecked
         try {
             receiverTask.executeOnExecutor(getExecutorService(), new Pair<>(this, mReceiverListener));
-        } catch (IllegalStateException e) {
+        } catch (RuntimeException e) {
             Log.e(TAG, "Error running socket listener", e);
         }
     }
