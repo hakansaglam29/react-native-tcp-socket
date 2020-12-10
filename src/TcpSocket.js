@@ -52,23 +52,23 @@ export default class TcpSocket extends EventEmitter {
      */
     _registerEvents() {
         this._unregisterEvents();
-        this._dataListener = this._eventEmitter.addListener('data', (evt) => {
+        this._dataListener = this._eventEmitter?.addListener('data', (evt) => {
             if (evt.id !== this._id) return;
             const bufferTest = Buffer.from(evt.data, 'base64');
             const finalData = this._encoding ? bufferTest.toString(this._encoding) : bufferTest;
             this.emit('data', finalData);
         });
-        this._errorListener = this._eventEmitter.addListener('error', (evt) => {
+        this._errorListener = this._eventEmitter?.addListener('error', (evt) => {
             if (evt.id !== this._id) return;
             this._onError();
             this.emit('error', evt.error);
         });
-        this._closeListener = this._eventEmitter.addListener('close', (evt) => {
+        this._closeListener = this._eventEmitter?.addListener('close', (evt) => {
             if (evt.id !== this._id) return;
             this._onClose();
             this.emit('close', evt.error);
         });
-        this._connectListener = this._eventEmitter.addListener('connect', (evt) => {
+        this._connectListener = this._eventEmitter?.addListener('connect', (evt) => {
             if (evt.id !== this._id) return;
             this._onConnect(evt.address);
             this.emit('connect', evt.address);
